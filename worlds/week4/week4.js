@@ -259,12 +259,12 @@ function onStartFrame(t, state) {
     gl.uniform1f (state.uMaterialsLoc[1].power   , 20);
     gl.uniform3fv(state.uMaterialsLoc[1].reflect , [.03,.06,.08]);
 
-    gl.uniform3fv(state.uMaterialsLoc[2].ambient , [.1,.1,0.1]);
+  /*gl.uniform3fv(state.uMaterialsLoc[2].ambient , [.1,.1,0.1]);
     gl.uniform3fv(state.uMaterialsLoc[2].diffuse , [.5,.5,0.5]);
     gl.uniform3fv(state.uMaterialsLoc[2].specular, [.6,.6,.6]);
     gl.uniform1f (state.uMaterialsLoc[2].power   , 10);
     gl.uniform3fv(state.uMaterialsLoc[2].reflect , [.04,0.04,0]);
-
+*/
     gl.uniform3fv(state.uMaterialsLoc[0].ambient , [.3,0.,0]);
     gl.uniform3fv(state.uMaterialsLoc[0].diffuse , [0.,0.,0.9]);
     gl.uniform3fv(state.uMaterialsLoc[0].specular, [0.,0.,0.9]);
@@ -272,6 +272,13 @@ function onStartFrame(t, state) {
     gl.uniform3fv(state.uMaterialsLoc[0].reflect , [.1,.1,.1]);
     gl.uniform3fv(state.uMaterialsLoc[0].transparent , [1,1,1] );
     gl.uniform1f (state.uMaterialsLoc[0].indexOfRefraction, 1);
+
+    gl.uniform3fv(state.uMaterialsLoc[2].ambient , [0,0.,0.3]);
+    gl.uniform3fv(state.uMaterialsLoc[2].diffuse , [0.9,0.,0.3]);
+    gl.uniform3fv(state.uMaterialsLoc[2].specular, [0.9,0.,0.3]);
+    gl.uniform1f (state.uMaterialsLoc[2].power   , 20);
+    gl.uniform3fv(state.uMaterialsLoc[2].reflect , [.1,.1,.1]);
+
     
     gl.uniform3fv(state.uMaterialsLoc[3].ambient , [.1,0,0]);
     gl.uniform3fv(state.uMaterialsLoc[3].diffuse , [.5,0,0]);
@@ -306,14 +313,14 @@ function onStartFrame(t, state) {
     gl.uniformMatrix4fv(state.uShapesLoc[3].matrix,false,identity);
     gl.uniformMatrix4fv(state.uShapesLoc[3].imatrix,false,inverse(identity));
     */
-    gl.uniform1i       (state.uShapesLoc[3].type, 1);
-    gl.uniform4fv      (state.uShapesLoc[3].center,[Math.sin(time),0,Math.cos(time),1]);
-    gl.uniform1f       (state.uShapesLoc[3].size,.1);
+    gl.uniform1i       (state.uShapesLoc[2].type, 2);
+    gl.uniform4fv      (state.uShapesLoc[2].center,[1,0,0,1]);
+    gl.uniform1f       (state.uShapesLoc[2].size,.5);
 
 
-    gl.uniform1i       (state.uShapesLoc[0].type, 2);
+    gl.uniform1i       (state.uShapesLoc[0].type, 1);
     gl.uniform4fv      (state.uShapesLoc[0].center,[1,-2,0,1]);
-    gl.uniform1f       (state.uShapesLoc[0].size,.5);
+    gl.uniform1f       (state.uShapesLoc[0].size,.2);
 
     gl.uniform1i       (state.uShapesLoc[1].type, 3);
     gl.uniform4fv      (state.uShapesLoc[1].center,[0,0,0,1]);
@@ -324,11 +331,11 @@ function onStartFrame(t, state) {
     //let M1 = multiply(translate(-.4, .4,-.4), multiply(rotateY(2  ), scale(.2,.3,.2)));
     //let M2 = multiply(translate(-.4,-.4, .4), multiply(rotateZ(1  ), scale(.3,.2,.1)));
     let M2 = multiply(rotateY(time),scale(0.5,0.2,1));
-    let M3 = multiply (scale((1.1+Math.sin(time)/2)*0.5,(1.1+Math.sin(time)/2),(1.1+Math.sin(time)/2)*0.5),rotateY(time-2));
-    let M1 = scale(translate(Math.sin(time),1,-2));
+    let M3 = multiply (scale((1.1+Math.sin(time)/2)*0.2,(1.1+Math.sin(time)/2)*0.5,(1.1+Math.sin(time)/2)*0.2),rotateY(time-2));
+    let M1 = multiply(scale(0.5,0.2,1),rotateX(time));
     setMatrix(state.uShapesLoc[0], M2);
     setMatrix(state.uShapesLoc[1], M3);     
-    setMatrix(state.uShapesLoc[2], M3);                                                      
+    setMatrix(state.uShapesLoc[2], M1);                                                      
     
     gl.enable(gl.DEPTH_TEST);
 }

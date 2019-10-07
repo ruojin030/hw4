@@ -4,7 +4,7 @@ precision highp float; // HIGH PRECISION FLOATS
 uniform float uTime;   // TIME, IN SECONDS
 in vec3 vPos;          // POSITION IN IMAGE
 out vec4 fragColor;    // RESULT WILL GO HERE
-const int NS = 2;
+const int NS = 3;
 const int NL = 1;
 const int CUBE = 6;
 const int OCT = 8;
@@ -33,12 +33,13 @@ uniform Shape uShapes[NS];
 vec3 Ldir[NL], Lcol[NL];
 vec2 rayShape(vec4 v, vec4 w, Shape s){
     if(s.type == 1){
-        vec3 vv = v.xyz-s.center.xyz;
+        vec3 vv = v.xyz-(s.center*s.matrix).xyz;
         float B = dot(w.xyz,vv);
         float C = dot(vv,vv)-s.size*s.size; //20
         if((B*B-C)<0.){
             return vec2 (-1.,-1.);
         } 
+        n_back = v+(-B+sqrt(B*B-C))*w;     
         return vec2(-B-sqrt(B*B-C),-B+sqrt(B*B-C));
     }
     if(s.type == 2){
@@ -139,7 +140,7 @@ vec3 phongShading(vec3 P, vec3 N, Shape S, Material M){
 }
 vec3 surfaceNormal(vec3 P, Shape s){
     if(s.type == 1){
-        return normalize(P-s.center.xyz);
+        return normalize(P-(s.center*s.matrix).xyz);
     }
     if(s.type == 2){
         return normalize(n_front).xyz;
